@@ -3,704 +3,1002 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetMesai - İK ve PDKS Çözümü</title>
+    <title>Passgage Market - PDKS ve Vardiya Yönetim Sistemi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #f97316;
+            --primary-dark: #ea580c;
+            --primary-light: #ffedd5;
+            --secondary: #0f172a;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
-            background-color: #F7F8FA;
-            color: #333;
+            background-color: #0f172a;
+            color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-        }
-
-        .screen {
-            display: none;
-            width: 100%;
-            max-width: 480px;
-            height: 100vh;
-            max-height: 850px;
-            background: #fff;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            position: relative;
-            flex-direction: column;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .screen.active {
-            display: flex;
-        }
-
-        .login-container {
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100%;
-        }
-
-        /* Görseldeki Logo Tasarımı */
-        .logo-box {
-            text-align: center;
-            margin-bottom: 35px;
-        }
-
-        .logo-circle {
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 15px auto;
-            border: 2px solid #d1d8d8;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            background: #fff;
-            box-shadow: 0 4px 15px rgba(22, 60, 56, 0.05);
-        }
-
-        .logo-circle svg {
-            width: 70px;
-            height: 70px;
-            stroke: #163C38;
-            fill: none;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-        }
-
-        .logo-title-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .logo-title-row h1 {
-            font-size: 28px;
-            color: #163C38;
-            font-weight: 700;
-        }
-
-        .login-container h3 {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: #111;
-        }
-
-        .input-group {
-            position: relative;
-            margin-bottom: 16px;
-        }
-
-        .input-group i.field-icon {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #555;
-            font-size: 16px;
-        }
-
-        .input-group i.eye-icon {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #777;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 14px 16px 14px 48px;
-            background: #F4F5F7;
-            border: 1px solid #E4E7EB;
-            border-radius: 12px;
-            outline: none;
-            font-size: 14px;
-            color: #333;
-        }
-
-        .input-group input::placeholder {
-            color: #A0Aaec;
-        }
-
-        /* iOS Tarzı Toggle Switch */
-        .login-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 10px 0 25px 0;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #222;
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-        }
-
-        .switch input { 
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-color: #ccc;
-            transition: .3s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: #163C38;
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-
-        .forgot-pass {
-            color: #163C38;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .btn-primary {
-            background: #1e1e1e;
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 14px;
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            margin-bottom: 12px;
-            width: 100%;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-        }
-
-        .btn-outline {
-            background: transparent;
-            color: #163C38;
-            border: 2px solid #163C38;
-            padding: 14px;
-            border-radius: 14px;
-            font-weight: bold;
-            font-size: 15px;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        /* Genel Ekranlar & Paneller */
-        .app-header {
-            background: #163C38;
-            color: white;
-            padding: 18px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .btn-logout, .btn-back {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        .dashboard-content {
             padding: 20px;
-            flex-grow: 1;
         }
 
-        .welcome-card {
-            background: linear-gradient(135deg, #E0F2F1, #B2DFDB);
-            padding: 18px;
-            border-radius: 14px;
+        .phone-container {
+            width: 100%;
+            max-width: 410px;
+            height: 844px;
+            background-color: var(--bg-color);
+            border-radius: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
+            position: relative;
+            border: 10px solid #1e293b;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            background-color: var(--bg-color);
+            padding: 12px 24px 8px 24px;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        .avatar-icon {
-            font-size: 35px;
-            color: #163C38;
-            background: white;
-            padding: 12px;
-            border-radius: 50%;
-        }
-
-        .grid-menu {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .card {
-            background: #f8f9fa;
-            padding: 22px;
-            border-radius: 16px;
-            text-align: center;
-            cursor: pointer;
-            border: 1px solid #eee;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
-        }
-
-        .card i {
-            font-size: 32px;
-            color: #163C38;
-            margin-bottom: 12px;
-            display: block;
-        }
-
-        .card span {
-            font-weight: bold;
             font-size: 14px;
-            color: #163C38;
-        }
-
-        /* Modals & Formlar */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
+            font-weight: 600;
+            color: var(--secondary);
             z-index: 100;
         }
 
-        .modal-content {
-            background: white;
-            padding: 25px;
+        .status-bar .icons i {
+            margin-left: 6px;
+        }
+
+        /* Role Switcher Bar */
+        .role-bar {
+            background: #1e293b;
+            color: white;
+            padding: 6px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            z-index: 101;
+        }
+
+        .role-bar select {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-weight: 650;
+            cursor: pointer;
+        }
+
+        /* App Content Area */
+        .app-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 20px 90px 20px;
+            position: relative;
+        }
+
+        .app-content::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Header */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-top .user-info h2 {
+            font-size: 18px;
+            color: var(--secondary);
+        }
+
+        .header-top .user-info p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            border: 2px solid var(--primary);
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
             border-radius: 16px;
-            width: 90%;
-            max-width: 380px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
+            border: 1px solid var(--border);
         }
 
-        .modal-content h3 {
-            color: #163C38;
-            margin-bottom: 5px;
-        }
-
-        .modal-content input, .modal-content select {
-            padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            outline: none;
+        .card-title {
             font-size: 14px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .modal-buttons {
+        /* Grid Menu */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .menu-item {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .menu-item:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .menu-item i {
+            font-size: 22px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .menu-item span {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        /* Buttons */
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
             display: flex;
-            gap: 10px;
-            margin-top: 5px;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
         }
 
         .btn-secondary {
             background: #e2e8f0;
-            color: #333;
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            cursor: pointer;
-            flex: 1;
-            font-weight: bold;
+            color: var(--secondary);
+        }
+        .btn-secondary:hover {
+            background: #cbd5e1;
         }
 
-        /* PDKS Ekranı */
-        .pdks-container {
-            padding: 30px;
+        .btn-danger {
+            background: var(--danger);
+        }
+        .btn-success {
+            background: var(--success);
+        }
+
+        /* Bottom Nav Bar */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 75px;
+            background: white;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px 15px 10px;
+            z-index: 99;
+        }
+
+        .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            flex-grow: 1;
-            gap: 20px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            background: none;
+            border: none;
         }
 
-        .qr-box {
-            width: 180px;
-            height: 180px;
-            border: 3px solid #163C38;
-            border-radius: 16px;
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .scan-fab {
+            width: 52px;
+            height: 52px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
             display: flex;
-            justify-content: center;
             align-items: center;
-            background: #fafafa;
+            justify-content: center;
+            font-size: 22px;
+            box-shadow: 0 10px 15px -3px rgba(249, 115, 22, 0.4);
+            margin-top: -24px;
+            border: 4px solid white;
+            cursor: pointer;
         }
 
-        .qr-box i {
-            font-size: 80px;
-            color: #163C38;
+        /* Views / Screens */
+        .view {
+            display: none;
         }
 
-        .pdks-container input {
+        .view.active {
+            display: block;
+            animation: fadeIn 0.25s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Form Controls */
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
             width: 100%;
-            padding: 14px;
-            text-align: center;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            font-size: 16px;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 13px;
+            outline: none;
+            background: white;
         }
 
-        /* Personel Listesi */
-        .personnel-container {
-            padding: 20px;
-            overflow-y: auto;
-            flex-grow: 1;
-            position: relative;
+        .form-control:focus {
+            border-color: var(--primary);
         }
 
-        ul { list-style: none; }
-
-        .user-item {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 12px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid #eee;
+        /* Badge */
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
         }
+        .badge-warning { background: #fef3c7; color: #d97706; }
+        .badge-success { background: #d1fae5; color: #059669; }
+        .badge-danger { background: #fee2e2; color: #dc2626; }
 
-        .floating-btn {
+        /* Scanner Modal */
+        .scanner-overlay {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
-            width: calc(100% - 40px);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(15, 23, 42, 0.95);
+            z-index: 200;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .scanner-box {
+            width: 240px;
+            height: 240px;
+            border: 3px dashed var(--primary);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .scanner-laser {
+            width: 100%;
+            height: 2px;
+            background: var(--primary);
+            position: absolute;
+            animation: scan 2s infinite linear;
+        }
+
+        @keyframes scan {
+            0% { top: 0; }
+            50% { top: 100%; }
+            100% { top: 0; }
+        }
+
+        /* Back Button */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 14px;
+        }
+
+        .list-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 8px;
         }
     </style>
 </head>
 <body>
 
-    <!-- GİRİŞ EKRANI -->
-    <div id="login-screen" class="screen active">
-        <div class="login-container">
-            <div class="logo-box">
-                <div class="logo-circle">
-                    <!-- Görseldeki Dalgalı M Logosu -->
-                    <svg viewBox="0 0 100 100">
-                        <path d="M20 70 C 20 30, 50 30, 50 50 C 50 70, 80 70, 80 30" />
-                    </svg>
-                </div>
-                <div class="logo-title-row">
-                    <h1>NetMesai</h1>
-                </div>
-            </div>
-            
-            <h3>Giriş Yap</h3>
-            
-            <div class="input-group">
-                <i class="fa-regular fa-envelope field-icon"></i>
-                <input type="text" id="login-id" placeholder="5XXXXXXXXX veya E-Posta">
-            </div>
-            <div class="input-group">
-                <i class="fa-solid fa-lock field-icon"></i>
-                <input type="password" id="login-pass" placeholder="••••••••">
-                <i class="fa-regular fa-eye-slash eye-icon"></i>
-            </div>
-            
-            <div class="login-options">
-                <div class="remember-me">
-                    <label class="switch">
-                        <input type="checkbox" checked>
-                        <span class="slider"></span>
-                    </label>
-                    <span>Beni Hatırla</span>
-                </div>
-                <a href="#" class="forgot-pass">Şifre Al / Yenile</a>
-            </div>
-
-            <button class="btn-primary" onclick="login()">Giriş Yap</button>
-            <button class="btn-outline" onclick="openBossModal()">Patron Girişi</button>
+<div class="phone-container">
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <span id="clock-time">23:12</span>
+        <div class="icons">
+            <i class="fa-solid fa-signal"></i>
+            <i class="fa-solid fa-wifi"></i>
+            <i class="fa-solid fa-battery-full"></i>
         </div>
     </div>
 
-    <!-- PATRON HIZLI GİRİŞ MODALI -->
-    <div id="boss-modal" class="modal">
-        <div class="modal-content">
-            <h3>Patron / Admin Girişi</h3>
-            <p style="font-size: 12px; color: #666;">Yönetici yetkisiyle sistemi yönetmek için giriş yapın.</p>
-            <input type="text" id="boss-user" placeholder="Kullanıcı Adı (admin)">
-            <input type="password" id="boss-pass" placeholder="Şifre (1234)">
-            <div class="modal-buttons">
-                <button onclick="closeBossModal()" class="btn-secondary">İptal</button>
-                <button onclick="bossLogin()" class="btn-primary" style="margin-bottom:0;">Giriş Yap</button>
-            </div>
-        </div>
+    <!-- Role Switcher Simulation Bar -->
+    <div class="role-bar">
+        <span>Aktif Rol:</span>
+        <select id="role-selector" onchange="switchRole(this.value)">
+            <option value="personel">👤 Personel (Yusuf Kocaman)</option>
+            <option value="yonetici">👔 Yönetici (Ahmet Müdür)</option>
+            <option value="patron">👑 Patron (Mehmet Bey)</option>
+        </select>
     </div>
 
-    <!-- ANA PANEL (DASHBOARD) -->
-    <div id="dashboard-screen" class="screen">
-        <header class="app-header">
-            <h2 id="panel-title">NetMesai Paneli</h2>
-            <button onclick="logout()" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i></button>
-        </header>
+    <!-- Main Content Area -->
+    <div class="app-content" id="main-container">
 
-        <div class="dashboard-content">
-            <div class="welcome-card">
-                <i class="fa-solid fa-user-tie avatar-icon"></i>
-                <div>
-                    <h3 id="welcome-name">Hoşgeldin</h3>
-                    <p id="welcome-role" style="font-size: 13px; color: #555;">Yetki: Personel</p>
+        <!-- VIEW 1: HOME / DASHBOARD -->
+        <div id="view-home" class="view active">
+            <div class="header-top">
+                <div class="user-info">
+                    <h2 id="welcome-title">Merhaba, Yusuf Kocaman</h2>
+                    <p id="user-role-badge">Battal Gazi Şubesi • Manav</p>
+                </div>
+                <div class="avatar" id="user-avatar-initials">YK</div>
+            </div>
+
+            <!-- PDKS Quick Status Card -->
+            <div class="card" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color: white;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span style="font-size: 12px; color: #94a3b8;"><i class="fa-solid fa-fingerprint"></i> PDKS Durumu</span>
+                    <span class="badge badge-success" id="pdfs-status-badge">İçeride</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items:-flex-end;">
+                    <div>
+                        <div style="font-size: 11px; color: #94a3b8;">Giriş Saati</div>
+                        <div style="font-size: 18px; font-weight: 700;" id="last-checkin-time">08:30</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 11px; color: #94a3b8;">Çalışma Süresi</div>
+                        <div style="font-size: 18px; font-weight: 700; color: var(--primary);" id="work-duration">6s 42dk</div>
+                    </div>
+                    <button class="btn" style="width: auto; padding: 8px 14px; font-size: 12px;" onclick="openScanner()">
+                        <i class="fa-solid fa-qrcode"></i> Okut
+                    </button>
                 </div>
             </div>
 
-            <div class="grid-menu">
-                <div class="card" onclick="openPdks()">
-                    <i class="fa-solid fa-qrcode"></i>
-                    <span>PDKS Giriş/Çıkış</span>
-                </div>
-                <div class="card" onclick="alert('Vardiya Programı açılıyor.')">
+            <!-- Menu Grid (12 Ekran Entegrasyonu) -->
+            <div class="menu-grid">
+                <div class="menu-item" onclick="navigate('view-vardiya')">
                     <i class="fa-solid fa-calendar-days"></i>
-                    <span>Vardiya Programı</span>
+                    <span>Vardiya</span>
                 </div>
-                <div class="card" id="admin-menu-card" onclick="openPersonnel()" style="display: none;">
-                    <i class="fa-solid fa-users-gear"></i>
-                    <span>Personel Yönetimi</span>
-                </div>
-                <div class="card" onclick="alert('İzin Talep modülü açıldı.')">
+                <div class="menu-item" onclick="navigate('view-talepler')">
                     <i class="fa-solid fa-file-lines"></i>
-                    <span>İzin Talebi</span>
+                    <span>Taleplerim</span>
+                </div>
+                <div class="menu-item" onclick="navigate('view-hareketler')">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <span>Hareketler</span>
+                </div>
+                <div class="menu-item" onclick="navigate('view-personel-ara')">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Personel Ara</span>
+                </div>
+                <div class="menu-item" onclick="navigate('view-kartvizit')">
+                    <i class="fa-solid fa-id-card"></i>
+                    <span>Kartvizit</span>
+                </div>
+                <div class="menu-item" onclick="navigate('view-duyurular')">
+                    <i class="fa-solid fa-bullhorn"></i>
+                    <span>Duyurular</span>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <!-- PDKS QR OKUYUCU EKRANI -->
-    <div id="pdks-screen" class="screen">
-        <header class="app-header">
-            <button onclick="backToDashboard()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></button>
-            <h2>PDKS QR Okuyucu</h2>
-        </header>
-        <div class="pdks-container">
-            <div class="qr-box">
-                <i class="fa-solid fa-qrcode"></i>
-            </div>
-            <input type="number" id="qr-input" placeholder="QR Kodu Girin (Örn: 123)">
-            <button class="btn-primary" onclick="verifyQr()">Kodu Doğrula</button>
-            <p id="qr-result" style="font-weight: bold;"></p>
-        </div>
-    </div>
+            <!-- Role Specific Action Panels -->
+            <div id="role-extra-panel"></div>
 
-    <!-- PERSONEL YÖNETİMİ EKRANI -->
-    <div id="personnel-screen" class="screen">
-        <header class="app-header">
-            <button onclick="backToDashboard()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></button>
-            <h2>Personel ve Yetki Yönetimi</h2>
-        </header>
-        <div class="personnel-container">
-            <ul id="personnel-list"></ul>
-            <button class="btn-primary floating-btn" onclick="openAddUserModal()">+ Yeni Personel Ekle</button>
-        </div>
-    </div>
-
-    <!-- İŞ BAŞVURU FORMU TARZINDA YENİ PERSONEL EKLEME MODALI -->
-    <div id="add-user-modal" class="modal">
-        <div class="modal-content">
-            <h3>Personel Kayıt Formu</h3>
-            <p style="font-size: 12px; color: #666;">Yeni çalışanın sistem giriş bilgilerini ve yetkisini belirleyin.</p>
-            
-            <input type="text" id="new-name" placeholder="Adı Soyadı">
-            <input type="text" id="new-phone" placeholder="Telefon Numarası (Giriş için)">
-            <input type="password" id="new-password" placeholder="Sisteme Giriş Şifresi">
-            
-            <select id="new-role">
-                <option value="Personel">Personel</option>
-                <option value="Yönetici">Yönetici</option>
-            </select>
-
-            <div class="modal-buttons">
-                <button onclick="closeAddUserModal()" class="btn-secondary">İptal</button>
-                <button onclick="addUser()" class="btn-primary" style="margin-bottom:0;">Kaydet</button>
+            <!-- Duyurular Özet Kartı -->
+            <div class="card">
+                <div class="card-title">Son Duyuru <i class="fa-solid fa-chevron-right" style="font-size: 11px; color: var(--text-muted);"></i></div>
+                <p style="font-size: 12px; color: var(--text-muted);">Bu hafta sonu tüm şubelerde envanter sayımı yapılacaktır. Lütfen vardiya saatlerine dikkat ediniz.</p>
             </div>
         </div>
-    </div>
 
-    <script>
-        // Veritabanı (Telefon ve Şifre ile giriş destekli)
-        let users = [
-            { name: "Ahmet Yılmaz", phone: "5551112233", pass: "1234", role: "Personel", status: "Aktif Değil" },
-            { name: "Mehmet Demir", phone: "5552223344", pass: "1234", role: "Yönetici", status: "Çalışıyor" }
-        ];
+        <!-- VIEW 2: VARDİYA -->
+        <div id="view-vardiya" class="view">
+            <button class="back-btn" onclick="navigate('view-home')"><i class="fa-solid fa-arrow-left"></i> Geri</button>
+            <div class="header-top">
+                <div class="user-info">
+                    <h2>Vardiya Planı</h2>
+                    <p>07 Eyl - 13 Eyl Haftası</p>
+                </div>
+            </div>
 
-        let currentUser = null;
+            <div class="card" id="vardiya-content-box">
+                <div style="text-align: center; padding: 30px 10px;">
+                    <i class="fa-solid fa-calendar-check" style="font-size: 40px; color: var(--primary); margin-bottom: 12px;"></i>
+                    <h4 style="font-size: 14px; margin-bottom: 6px;">Battal Gazi Şubesi Vardiyası</h4>
+                    <p style="font-size: 12px; color: var(--text-muted);">Pazartesi - Cuma: 08:30 - 18:30<br>Cumartesi: 09:00 - 15:00<br>Pazar: İzinli</p>
+                </div>
+            </div>
 
-        function showScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(screenId).classList.add('active');
-        }
+            <!-- Yöneticiye Özel Vardiya Düzenleme Butonu -->
+            <div id="manager-vardiya-action" style="display: none; margin-top: 15px;">
+                <button class="btn" onclick="openVardiyaModal()"><i class="fa-solid fa-pen-to-square"></i> Personel Vardiyası Düzenle</button>
+            </div>
+        </div>
 
-        // Normal Giriş (Telefon Numarası veya E-posta ile)
-        function login() {
-            const inputId = document.getElementById('login-id').value.trim();
-            const inputPass = document.getElementById('login-pass').value.trim();
+        <!-- VIEW 3: TALEPLERİM & ONAY SÜRECİ -->
+        <div id="view-talepler" class="view">
+            <button class="back-btn" onclick="navigate('view-home')"><i class="fa-solid fa-arrow-left"></i> Geri</button>
+            <div class="header-top">
+                <div class="user-info">
+                    <h2>İzin Talepleri</h2>
+                    <p id="talep-subtext">Yıllık, Haftalık veya Ücretsiz İzin</p>
+                </div>
+                <button class="btn" style="width: auto; padding: 8px 12px; font-size: 11px;" onclick="openNewTalepModal()"><i class="fa-solid fa-plus"></i> Talep Aç</button>
+            </div>
 
-            const foundUser = users.find(u => u.phone === inputId);
+            <div id="talepler-list-container">
+                <!-- Dinamik talepler buraya gelecek -->
+            </div>
+        </div>
 
-            if (foundUser && foundUser.pass === inputPass) {
-                currentUser = foundUser;
-                setupDashboard();
-            } else if (inputId === "admin" && inputPass === "1234") {
-                currentUser = { name: "Sistem Patronu", role: "Patron" };
-                setupDashboard();
-            } else {
-                alert("Hatalı telefon numarası veya şifre!");
-            }
-        }
+        <!-- VIEW 4: HAREKETLER (PDKS) -->
+        <div id="view-hareketler" class="view">
+            <button class="back-btn" onclick="navigate('view-home')"><i class="fa-solid fa-arrow-left"></i> Geri</button>
+            <div class="header-top">
+                <div class="user-info">
+                    <h2>PDKS Hareketleri</h2>
+                    <p>Giriş ve Çıkış Kayıtları</p>
+                </div>
+            </div>
 
-        function openBossModal() { document.getElementById('boss-modal').style.display = 'flex'; }
-        function closeBossModal() { document.getElementById('boss-modal').style.display = 'none'; }
+            <div class="list-item">
+                <div>
+                    <div style="font-weight: 700; font-size: 13px;">Giriş (Battal Gazi Şube)</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">13 Eylül 2026, Pazar</div>
+                </div>
+                <span class="badge badge-success">08:30</span>
+            </div>
+            <div class="list-item">
+                <div>
+                    <div style="font-weight: 700; font-size: 13px;">Çıkış (Battal Gazi Şube)</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">12 Eylül 2026, Cumartesi</div>
+                </div>
+                <span class="badge badge-danger">18:05</span>
+            </div>
+            <div class="list-item">
+                <div>
+                    <div style="font-weight: 700; font-size: 13px;">Giriş (Battal Gazi Şube)</div>
+                    <div style="font-size: 11px; color: var(--text-muted);">12 Eylül 2026, Cumartesi</div>
+                </div>
+                <span class="badge badge-success">08:28</span>
+            </div>
+        </div>
 
-        function bossLogin() {
-            const user = document.getElementById('boss-user').value.trim();
-            const pass = document.getElementById('boss-pass').value.trim();
+        <!-- VIEW 5: PERSONEL ARA & ŞUBE -->
+        <div id="view-personel-ara" class="view">
+            <button class="back-btn" onclick="navigate('view-home')"><i class="fa-solid fa-arrow-left"></i> Geri</button>
+            <div class="header-top">
+                <div class="user-info">
+                    <h2>Personel Arama</h2>
+                    <p>Şube ve Pozisyon Filtreleme</p>
+                </div>
+            </div>
 
-            if(user === "admin" && pass === "1234") {
-                closeBossModal();
-                currentUser = { name: "Şirket Patronu", role: "Patron" };
-                setupDashboard();
-            } else {
-                alert("Hatalı Patron Bilgisi! (Kullanıcı: admin, Şifre: 1234)");
-            }
-        }
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Personel Adı Ara..." onkeyup="filterPersonel(this.value)">
+            </div>
+            <div class="form-group">
+                <select class="form-control" id="sube-filter">
+                    <option>Battal Gazi Şubesi</option>
+                    <option>Merkez Depo</option>
+                </select>
+            </div>
 
-        function setupDashboard() {
-            document.getElementById('welcome-name').innerText = `Hoşgeldin, ${currentUser.name}`;
-            document.getElementById('welcome-role').innerText = `Yetki Seviyesi: ${currentUser.role}`;
-            document.getElementById('panel-title').innerText = `NetMesai (${currentUser.role} Paneli)`;
-
-            const adminCard = document.getElementById('admin-menu-card');
-            if(currentUser.role === "Patron" || currentUser.role === "Yönetici") {
-                adminCard.style.display = "block";
-            } else {
-                adminCard.style.display = "none";
-            }
-
-            showScreen('dashboard-screen');
-        }
-
-        function logout() {
-            currentUser = null;
-            document.getElementById('login-id').value = "";
-            document.getElementById('login-pass').value = "";
-            showScreen('login-screen');
-        }
-
-        function backToDashboard() {
-            showScreen('dashboard-screen');
-        }
-
-        function openPdks() { showScreen('pdks-screen'); }
-
-        function verifyQr() {
-            const code = document.getElementById('qr-input').value.trim();
-            const resultText = document.getElementById('qr-result');
-
-            if(code === "123") {
-                resultText.innerHTML = "✅ Başarılı! Giriş/Çıkış onaylandı.";
-                resultText.style.color = "green";
-            } else {
-                resultText.innerHTML = "❌ Geçersiz Kod! Doğru kod: 123";
-                resultText.style.color = "red";
-            }
-        }
-
-        function openPersonnel() {
-            renderPersonnelList();
-            showScreen('personnel-screen');
-        }
-
-        function renderPersonnelList() {
-            const listEl = document.getElementById('personnel-list');
-            listEl.innerHTML = "";
-            users.forEach((u, index) => {
-                listEl.innerHTML += `
-                    <li class="user-item">
+            <div id="personel-listesi">
+                <div class="list-item">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="avatar" style="width: 32px; height: 32px; font-size: 12px;">YK</div>
                         <div>
-                            <strong>${u.name}</strong> (${u.role})<br>
-                            <small style="color:#666;">Tel: ${u.phone} | Şifre: ${u.pass}</small>
+                            <div style="font-weight: 700; font-size: 13px;">Yusuf Kocaman</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Manav</div>
                         </div>
-                        <button onclick="deleteUser(${index})" style="background:none; border:none; color:red; cursor:pointer; font-size:16px;"><i class="fa-solid fa-trash"></i></button>
-                    </li>
+                    </div>
+                    <span class="badge badge-success">İçeride</span>
+                </div>
+                <div class="list-item">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div class="avatar" style="width: 32px; height: 32px; font-size: 12px; background:#e0f2fe; color:#0284c7;">İD</div>
+                        <div>
+                            <div style="font-weight: 700; font-size: 13px;">İlyas Demir</div>
+                            <div style="font-size: 11px; color: var(--text-muted);">Kasap</div>
+                        </div>
+                    </div>
+                    <span class="badge badge-success">İçeride</span>
+                </div>
+            </div>
+
+            <!-- Patron için Personel Ekleme Paneli -->
+            <div id="patron-add-personel-box" style="display: none; margin-top: 20px;">
+                <button class="btn" onclick="openAddPersonelModal()"><i class="fa-solid fa-user-plus"></i> Yeni Personel Ekle (Pozisyon Seçmeli)</button>
+            </div>
+        </div>
+
+        <!-- VIEW 6: KARTVİZİT -->
+        <div id="view-kartvizit" class="view">
+            <button class="back-btn" onclick="navigate('view-home')"><i class="fa-solid fa-arrow-left"></i> Geri</button>
+            <div class="card" style="text-align: center; padding: 30px 20px; background: linear-gradient(135deg, #f97316 0%, #ea580c 100%); color: white;">
+                <div class="avatar" style="width: 64px; height: 64px; font-size: 24px; margin: 0 auto 12px auto; background: white; color: var(--primary);">YK</div>
+                <h3 style="font-size: 18px; margin-bottom: 4px;" id="card-name">Yusuf Kocaman</h3>
+                <p style="font-size: 12px; opacity: 0.9;" id="card-title">Manav • Battal Gazi Şubesi</p>
+                <div style="margin-top: 20px; background: white; padding: 15px; border-radius: 12px; display: inline-block;">
+                    <i class="fa-solid fa-qrcode" style="font-size: 80px; color: var(--secondary);"></i>
+                </div>
+                <p style="font-size: 11px; margin-top: 10px; opacity: 0.8;">Hızlı İletişim ve Profil QR Kodum</p>
+            </div>
+        </div>
+
+        <!-- VIEW 7: DUYURULAR -->
+        <div id="view-duyurular" class="view">
+            <button class="back-btn" onclick="navigate('view-home')"><i class="fa-solid fa-arrow-left"></i> Geri</button>
+            <div class="header-top">
+                <div class="user-info">
+                    <h2>Duyurular</h2>
+                    <p>Şirket İçi Bildirimler</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Envanter Sayımı <span class="badge badge-warning">Önemli</span></div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Bu hafta sonu tüm şubelerde genel envanter sayımı gerçekleştirilecektir.</p>
+                <span style="font-size: 10px; color: var(--text-muted);">12 Eylül 2026 • Yönetim</span>
+            </div>
+            <div class="card">
+                <div class="card-title">Yemek Kartı Güncellemesi <span class="badge badge-success">Bilgi</span></div>
+                <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Eylül ayı yemek kartı bakiyeleri hesaplara tanımlanmıştır.</p>
+                <span style="font-size: 10px; color: var(--text-muted);">01 Eylül 2026 • İK</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scanner Modal (QR / Barkod Giriş Çıkış) -->
+    <div class="scanner-overlay" id="scanner-modal">
+        <h3 style="margin-bottom: 8px;">Passgage QR Okuyucu</h3>
+        <p style="font-size: 12px; color: #94a3b8; margin-bottom: 20px;">İş yeri giriş/çıkış QR kodunu kameraya okutun.</p>
+        <div class="scanner-box">
+            <div class="scanner-laser"></div>
+            <i class="fa-solid fa-qrcode" style="font-size: 64px; color: rgba(255,255,255,0.2);"></i>
+        </div>
+        <button class="btn" style="width: 200px; margin-bottom: 10px;" onclick="simulateScanSuccess()">Kodu Onayla ve Giriş/Çıkış Yap</button>
+        <button class="btn btn-secondary" style="width: 200px; background: rgba(255,255,255,0.1); color: white;" onclick="closeScanner()">İptal</button>
+    </div>
+
+    <!-- New Talep Modal -->
+    <div class="scanner-overlay" id="talep-modal" style="justify-content: flex-end; padding: 0; background: rgba(15, 23, 42, 0.7);">
+        <div style="background: white; width: 100%; border-radius: 24px 24px 0 0; padding: 24px; color: var(--text-main); text-align: left; max-height: 80vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="font-size: 16px; color: var(--secondary);">Yeni İzin Talebi Oluştur</h3>
+                <i class="fa-solid fa-xmark" style="cursor: pointer; font-size: 18px;" onclick="closeNewTalepModal()"></i>
+            </div>
+            <div class="form-group">
+                <label class="form-label">İzin Türü</label>
+                <select class="form-control" id="talep-tipi">
+                    <option>Yıllık İzin</option>
+                    <option>Haftalık İzin</option>
+                    <option>Ücretsiz İzin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Başlangıç Tarihi</label>
+                <input type="date" class="form-control" id="talep-baslangic" value="2026-09-14">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Bitiş Tarihi</label>
+                <input type="date" class="form-control" id="talep-bitis" value="2026-09-15">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Açıklama / Gerekçe</label>
+                <textarea class="form-control" rows="3" placeholder="İzin gerekçesini yazınız..."></textarea>
+            </div>
+            <button class="btn" onclick="submitTalep()">Talebi Gönder</button>
+        </div>
+    </div>
+
+    <!-- Personel Ekleme Modal (Pozisyon Seçicili - Patron için) -->
+    <div class="scanner-overlay" id="add-personel-modal" style="justify-content: flex-end; padding: 0; background: rgba(15, 23, 42, 0.7);">
+        <div style="background: white; width: 100%; border-radius: 24px 24px 0 0; padding: 24px; color: var(--text-main); text-align: left;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="font-size: 16px; color: var(--secondary);">Yeni Personel Ekle</h3>
+                <i class="fa-solid fa-xmark" style="cursor: pointer; font-size: 18px;" onclick="closeAddPersonelModal()"></i>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Personel Ad Soyad</label>
+                <input type="text" class="form-control" id="yeni-ad" placeholder="Örn: Mehmet Can">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Pozisyon / Kategori Seç</label>
+                <select class="form-control" id="yeni-pozisyon">
+                    <option value="Manav">Manav</option>
+                    <option value="Kasap">Kasap</option>
+                    <option value="Şarküteri Sorumlusu">Şarküteri Sorumlusu</option>
+                    <option value="Kasiyer">Kasiyer</option>
+                    <option value="Depo Sorumlusu">Depo Sorumlusu</option>
+                    <option value="Mağaza Müdürü (Yönetici)">Mağaza Müdürü (Yönetici)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Şube</label>
+                <select class="form-control" id="yeni-sube">
+                    <option>Battal Gazi Şubesi</option>
+                    <option>Merkez Depo</option>
+                </select>
+            </div>
+            <button class="btn" onclick="saveNewPersonel()">Personeli Kaydet</button>
+        </div>
+    </div>
+
+    <!-- Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="navigate('view-home')">
+            <i class="fa-solid fa-house"></i>
+            <span>Ana Sayfa</span>
+        </button>
+        <button class="nav-item" onclick="navigate('view-vardiya')">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Vardiya</span>
+        </button>
+        <div class="scan-fab" onclick="openScanner()">
+            <i class="fa-solid fa-qrcode"></i>
+        </div>
+        <button class="nav-item" onclick="navigate('view-talepler')">
+            <i class="fa-solid fa-file-lines"></i>
+            <span>Talepler</span>
+        </button>
+        <button class="nav-item" onclick="navigate('view-personel-ara')">
+            <i class="fa-solid fa-users"></i>
+            <span>Personel</span>
+        </button>
+    </div>
+</div>
+
+<script>
+    // State management
+    let currentRole = 'personel'; // personel, yonetici, patron
+    let taleplerData = [
+        { id: 1, isim: 'Yusuf Kocaman', rol: 'Manav', tip: 'Yıllık İzin', baslangic: '2026-09-20', bitis: '2026-09-25', durum: 'Yönetici Onayladı (Patrona İletildi)' }
+    ];
+
+    function updateClock() {
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('clock-time').innerText = `${hours}:${minutes}`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    function navigate(viewId) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById(viewId).classList.add('active');
+
+        // Nav active states
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        if(viewId === 'view-home') document.querySelectorAll('.nav-item')[0].classList.add('active');
+        if(viewId === 'view-vardiya') document.querySelectorAll('.nav-item')[1].classList.add('active');
+        if(viewId === 'view-talepler') document.querySelectorAll('.nav-item')[2].classList.add('active');
+        if(viewId === 'view-personel-ara') document.querySelectorAll('.nav-item')[3].classList.add('active');
+
+        renderRoleSpecificUI();
+    }
+
+    function switchRole(role) {
+        currentRole = role;
+        const welcomeTitle = document.getElementById('welcome-title');
+        const userRoleBadge = document.getElementById('user-role-badge');
+        const avatar = document.getElementById('user-avatar-initials');
+        const cardName = document.getElementById('card-name');
+        const cardTitle = document.getElementById('card-title');
+        const talepSubtext = document.getElementById('talep-subtext');
+
+        if(role === 'personel') {
+            welcomeTitle.innerText = "Merhaba, Yusuf Kocaman";
+            userRoleBadge.innerText = "Battal Gazi Şubesi • Manav";
+            avatar.innerText = "YK";
+            cardName.innerText = "Yusuf Kocaman";
+            cardTitle.innerText = "Manav • Battal Gazi Şubesi";
+            talepSubtext.innerText = "Yıllık, Haftalık veya Ücretsiz İzin Talebi";
+        } else if(role === 'yonetici') {
+            welcomeTitle.innerText = "Merhaba, Ahmet Müdür";
+            userRoleBadge.innerText = "Battal Gazi Şubesi • Mağaza Müdürü";
+            avatar.innerText = "AM";
+            cardName.innerText = "Ahmet Müdür";
+            cardTitle.innerText = "Mağaza Müdürü • Battal Gazi Şubesi";
+            talepSubtext.innerText = "Personel Talepleri ve Patron Onay Hattı";
+        } else if(role === 'patron') {
+            welcomeTitle.innerText = "Merhaba, Mehmet Bey";
+            userRoleBadge.innerText = "Genel Merkez • Patron";
+            avatar.innerText = "MB";
+            cardName.innerText = "Mehmet Bey";
+            cardTitle.innerText = "Patron • Yönetim Kurulu";
+            talepSubtext.innerText = "Personel ve Yönetici İzin Onay Paneli";
+        }
+
+        renderRoleSpecificUI();
+        renderTalepler();
+    }
+
+    function renderRoleSpecificUI() {
+        const panel = document.getElementById('role-extra-panel');
+        const managerVardiyaAction = document.getElementById('manager-vardiya-action');
+        const patronAddBox = document.getElementById('patron-add-personel-box');
+
+        panel.innerHTML = '';
+        managerVardiyaAction.style.display = 'none';
+        patronAddBox.style.display = 'none';
+
+        if(currentRole === 'yonetici') {
+            managerVardiyaAction.style.display = 'block';
+            panel.innerHTML = `
+                <div class="card" style="border-left: 4px solid var(--primary);">
+                    <div class="card-title"><i class="fa-solid fa-bell"></i> Bekleyen Yönetici İşlemleri</div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Personelden gelen ${taleplerData.length} izin talebini inceleyip patron onayına iletebilirsiniz.</p>
+                    <button class="btn" style="padding: 8px; font-size: 12px;" onclick="navigate('view-talepler')">Talepleri İncele ve İlet</button>
+                </div>
+            `;
+        } else if(currentRole === 'patron') {
+            patronAddBox.style.display = 'block';
+            panel.innerHTML = `
+                <div class="card" style="border-left: 4px solid var(--success);">
+                    <div class="card-title"><i class="fa-solid fa-shield-halved"></i> Patron Onay Bekleyenler</div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Yöneticiler tarafından iletilen talepleri onaylayabilir veya reddedebilirsiniz.</p>
+                    <button class="btn btn-success" style="padding: 8px; font-size: 12px;" onclick="navigate('view-talepler')">Onay Paneline Git</button>
+                </div>
+            `;
+        }
+    }
+
+    function renderTalepler() {
+        const container = document.getElementById('talepler-list-container');
+        container.innerHTML = '';
+
+        if(taleplerData.length === 0) {
+            container.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-muted); font-size:12px;">Henüz aktif bir izin talebi bulunmuyor.</div>`;
+            return;
+        }
+
+        taleplerData.forEach((t, idx) => {
+            let actionButtons = '';
+            if(currentRole === 'yonetici' && t.durum.includes('Bekliyor')) {
+                actionButtons = `<button class="btn" style="padding:6px 10px; font-size:11px; margin-top:8px;" onclick="forwardToPatron(${idx})"><i class="fa-solid fa-share"></i> Patron'a İlet</button>`;
+            } else if(currentRole === 'patron' && (t.durum.includes('İletildi') || t.durum.includes('Bekliyor'))) {
+                actionButtons = `
+                    <div style="display: flex; gap: 8px; margin-top: 8px;">
+                        <button class="btn btn-success" style="padding:6px 10px; font-size:11px;" onclick="approveTalep(${idx}, true)"><i class="fa-solid fa-check"></i> Kabul Et</button>
+                        <button class="btn btn-danger" style="padding:6px 10px; font-size:11px;" onclick="approveTalep(${idx}, false)"><i class="fa-solid fa-xmark"></i> Reddet</button>
+                    </div>
                 `;
-            });
-        }
-
-        function openAddUserModal() { document.getElementById('add-user-modal').style.display = 'flex'; }
-        function closeAddUserModal() { document.getElementById('add-user-modal').style.display = 'none'; }
-
-        function addUser() {
-            const name = document.getElementById('new-name').value.trim();
-            const phone = document.getElementById('new-phone').value.trim();
-            const pass = document.getElementById('new-password').value.trim();
-            const role = document.getElementById('new-role').value;
-
-            if(name && phone && pass) {
-                users.push({ name: name, phone: phone, pass: pass, role: role, status: "Aktif Değil" });
-                closeAddUserModal();
-                
-                // Form alanlarını temizle
-                document.getElementById('new-name').value = "";
-                document.getElementById('new-phone').value = "";
-                document.getElementById('new-password').value = "";
-
-                renderPersonnelList();
-                alert("Personel başarıyla kaydedildi! Artık bu telefon ve şifre ile giriş yapabilir.");
-            } else {
-                alert("Lütfen tüm alanları doldurun.");
             }
-        }
 
-        function deleteUser(index) {
-            users.users = users.splice(index, 1);
-            renderPersonnelList();
+            container.innerHTML += `
+                <div class="card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <span style="font-weight:700; font-size:13px;">${t.isim} (${t.rol})</span>
+                        <span class="badge ${t.durum.includes('Kabul') ? 'badge-success' : (t.durum.includes('Red') ? 'badge-danger' : 'badge-warning')}">${t.durum}</span>
+                    </div>
+                    <div style="font-size:12px; color:var(--text-muted);">Tür: <b>${t.tip}</b></div>
+                    <div style="font-size:12px; color:var(--text-muted);">Tarih: ${t.baslangic} / ${t.bitis}</div>
+                    ${actionButtons}
+                </div>
+            `;
+        });
+    }
+
+    // Modal Handlers
+    function openScanner() {
+        document.getElementById('scanner-modal').style.display = 'flex';
+    }
+    function closeScanner() {
+        document.getElementById('scanner-modal').style.display = 'none';
+    }
+    function simulateScanSuccess() {
+        closeScanner();
+        alert('QR kod başarıyla okutuldu! PDKS giriş / çıkış kaydınız işlendi.');
+        document.getElementById('last-checkin-time').innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    }
+
+    function openNewTalepModal() {
+        document.getElementById('talep-modal').style.display = 'flex';
+    }
+    function closeNewTalepModal() {
+        document.getElementById('talep-modal').style.display = 'none';
+    }
+    function submitTalep() {
+        const tip = document.getElementById('talep-tipi').value;
+        const baslangic = document.getElementById('talep-baslangic').value;
+        const bitis = document.getElementById('talep-bitis').value;
+
+        let isim = "Yusuf Kocaman";
+        let rol = "Manav";
+        if(currentRole === 'yonetici') { isim = "Ahmet Müdür"; rol = "Mağaza Müdürü"; }
+
+        taleplerData.push({
+            id: Date.now(),
+            isim: isim,
+            rol: rol,
+            tip: tip,
+            baslangic: baslangic,
+            bitis: bitis,
+            durum: currentRole === 'yonetici' ? 'Patrona İletildi (Onay Bekliyor)' : 'Yöneticiye İletildi (Bekliyor)'
+        });
+
+        closeNewTalepModal();
+        renderTalepler();
+        alert('İzin talebiniz başarıyla oluşturuldu ve ilgili onay merciine iletildi.');
+    }
+
+    function forwardToPatron(idx) {
+        taleplerData[idx].durum = 'Patrona İletildi (Onay Bekliyor)';
+        renderTalepler();
+        alert('Talep patron onayına iletildi.');
+    }
+
+    function approveTalep(idx, isAccepted) {
+        taleplerData[idx].durum = isAccepted ? 'Patron Onayladı (İzinli Sayıldı)' : 'Patron Reddetti';
+        renderTalepler();
+        alert(isAccepted ? 'Talep onaylandı, personel izinli sayıldı.' : 'Talep reddedildi.');
+    }
+
+    function openAddPersonelModal() {
+        document.getElementById('add-personel-modal').style.display = 'flex';
+    }
+    function closeAddPersonelModal() {
+        document.getElementById('add-personel-modal').style.display = 'none';
+    }
+    function saveNewPersonel() {
+        const ad = document.getElementById('yeni-ad').value;
+        const pozisyon = document.getElementById('yeni-pozisyon').value;
+        const sube = document.getElementById('yeni-sube').value;
+
+        if(!ad) { alert('Lütfen personel adını giriniz.'); return; }
+
+        const listesi = document.getElementById('personel-listesi');
+        const initials = ad.split(' ').map(n => n[0]).join('').toUpperCase();
+
+        listesi.innerHTML += `
+            <div class="list-item">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="avatar" style="width: 32px; height: 32px; font-size: 12px; background:#ffedd5; color:#ea580c;">${initials}</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 13px;">${ad}</div>
+                        <div style="font-size: 11px; color: var(--text-muted);">${pozisyon} • ${sube}</div>
+                    </div>
+                </div>
+                <span class="badge badge-success">Aktif</span>
+            </div>
+        `;
+        closeAddPersonelModal();
+        alert(`${ad} (${pozisyon}) başarıyla sisteme eklendi.`);
+    }
+
+    function openVardiyaModal() {
+        const yeniSaat = prompt("Battal Gazi şubesi için yeni haftalık çalışma saatlerini giriniz:", "08:00 - 18:00");
+        if(yeniSaat) {
+            document.getElementById('vardiya-content-box').innerHTML = `
+                <div style="text-align: center; padding: 20px 10px;">
+                    <i class="fa-solid fa-calendar-check" style="font-size: 40px; color: var(--success); margin-bottom: 12px;"></i>
+                    <h4 style="font-size: 14px; margin-bottom: 6px;">Battal Gazi Şubesi (Güncellendi)</h4>
+                    <p style="font-size: 12px; color: var(--text-muted);">Yeni Haftalık Vardiya Saatleri:<br><b>${yeniSaat}</b></p>
+                </div>
+            `;
+            alert('Haftalık vardiya yönetici tarafından başarıyla güncellendi.');
         }
-    </script>
+    }
+
+    function filterPersonel(query) {
+        // Basit filtre simülasyonu
+    }
+
+    renderRoleSpecificUI();
+    renderTalepler();
+</script>
+
 </body>
 </html>
