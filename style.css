@@ -1,0 +1,305 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #F7F8FA;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.screen {
+    display: none;
+    width: 100%;
+    max-width: 480px;
+    height: 100%;
+    max-height: 850px;
+    background: #fff;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    position: relative;
+    flex-direction: column;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* Giriş Ekranı */
+.login-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.logo-box {
+    text-align: center;
+    border: 1px solid #eee;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+}
+
+.logo-icon {
+    font-size: 40px;
+    color: #163C38;
+}
+
+.logo-box h2 {
+    color: #163C38;
+    margin-top: 5px;
+}
+
+.logo-box p {
+    color: #777;
+    font-size: 12px;
+}
+
+.input-group {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-group i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 12px 12px 45px;
+    background: #f1f3f5;
+    border: none;
+    border-radius: 10px;
+    outline: none;
+}
+
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.forgot-pass {
+    color: #163C38;
+    text-decoration: none;
+}
+
+.btn-primary {
+    background: #222;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #163C38;
+    border: 2px solid #163C38;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* Header */
+.app-header {
+    background: #163C38;
+    color: white;
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-logout, .btn-back {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Dashboard */
+.dashboard-content {
+    padding: 20px;
+    flex-grow: 1;
+}
+
+.welcome-card {
+    background: linear-gradient(135deg, #E0F2F1, #B2DFDB);
+    padding: 15px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.avatar-icon {
+    font-size: 35px;
+    color: #163C38;
+    background: white;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.grid-menu {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #eee;
+    transition: 0.2s;
+}
+
+.card:hover {
+    background: #f1f3f5;
+}
+
+.card i {
+    font-size: 30px;
+    color: #163C38;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.card span {
+    font-weight: bold;
+    font-size: 14px;
+    color: #163C38;
+}
+
+/* Modals */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-content input, .modal-content select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-secondary {
+    background: #ccc;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    flex: 1;
+}
+
+/* PDKS Ekranı */
+.pdks-container {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+    gap: 20px;
+}
+
+.qr-box {
+    width: 180px;
+    height: 180px;
+    border: 3px solid #163C38;
+    border-radius: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.qr-box i {
+    font-size: 80px;
+    color: #163C38;
+}
+
+.pdks-container input {
+    width: 100%;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+/* Personel Listesi */
+.personnel-container {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+    position: relative;
+}
+
+ul {
+    list-style: none;
+}
+
+.user-item {
+    background: #f8f9fa;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eee;
+}
+
+.floating-btn {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: calc(100% - 40px);
+}
+
