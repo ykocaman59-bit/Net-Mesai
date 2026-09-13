@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetMesai - İK ve PDKS Platformu</title>
+    <title>NetMesai - İK ve PDKS Çözümü</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -48,91 +48,191 @@
             height: 100%;
         }
 
+        /* Görseldeki Logo Tasarımı */
         .logo-box {
             text-align: center;
-            border: 1px solid #eee;
-            padding: 20px;
-            border-radius: 16px;
-            margin-bottom: 25px;
+            margin-bottom: 35px;
         }
 
-        .logo-icon {
-            font-size: 40px;
+        .logo-circle {
+            width: 110px;
+            height: 110px;
+            margin: 0 auto 15px auto;
+            border: 2px solid #d1d8d8;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background: #fff;
+            box-shadow: 0 4px 15px rgba(22, 60, 56, 0.05);
+        }
+
+        .logo-circle svg {
+            width: 70px;
+            height: 70px;
+            stroke: #163C38;
+            fill: none;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+        }
+
+        .logo-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .logo-title-row h1 {
+            font-size: 28px;
             color: #163C38;
+            font-weight: 700;
         }
 
-        .logo-box h2 {
-            color: #163C38;
-            margin-top: 5px;
-        }
-
-        .logo-box p {
-            color: #777;
-            font-size: 12px;
+        .login-container h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #111;
         }
 
         .input-group {
             position: relative;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
         }
 
-        .input-group i {
+        .input-group i.field-icon {
             position: absolute;
-            left: 15px;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #555;
+            font-size: 16px;
+        }
+
+        .input-group i.eye-icon {
+            position: absolute;
+            right: 16px;
             top: 50%;
             transform: translateY(-50%);
             color: #777;
+            cursor: pointer;
+            font-size: 16px;
         }
 
         .input-group input {
             width: 100%;
-            padding: 12px 12px 12px 45px;
-            background: #f1f3f5;
-            border: none;
-            border-radius: 10px;
+            padding: 14px 16px 14px 48px;
+            background: #F4F5F7;
+            border: 1px solid #E4E7EB;
+            border-radius: 12px;
             outline: none;
+            font-size: 14px;
+            color: #333;
         }
 
+        .input-group input::placeholder {
+            color: #A0Aaec;
+        }
+
+        /* iOS Tarzı Toggle Switch */
         .login-options {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            font-size: 13px;
+            margin: 10px 0 25px 0;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #ccc;
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #163C38;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
         }
 
         .forgot-pass {
             color: #163C38;
             text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
         }
 
         .btn-primary {
-            background: #222;
+            background: #1e1e1e;
             color: white;
             border: none;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 15px;
+            border-radius: 14px;
             font-weight: bold;
+            font-size: 15px;
             cursor: pointer;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             width: 100%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
         .btn-outline {
             background: transparent;
             color: #163C38;
             border: 2px solid #163C38;
-            padding: 12px;
-            border-radius: 10px;
+            padding: 14px;
+            border-radius: 14px;
             font-weight: bold;
+            font-size: 15px;
             cursor: pointer;
             width: 100%;
         }
 
+        /* Genel Ekranlar & Paneller */
         .app-header {
             background: #163C38;
             color: white;
-            padding: 15px 20px;
+            padding: 18px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -153,8 +253,8 @@
 
         .welcome-card {
             background: linear-gradient(135deg, #E0F2F1, #B2DFDB);
-            padding: 15px;
-            border-radius: 12px;
+            padding: 18px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             gap: 15px;
@@ -165,7 +265,7 @@
             font-size: 35px;
             color: #163C38;
             background: white;
-            padding: 10px;
+            padding: 12px;
             border-radius: 50%;
         }
 
@@ -177,17 +277,18 @@
 
         .card {
             background: #f8f9fa;
-            padding: 20px;
+            padding: 22px;
             border-radius: 16px;
             text-align: center;
             cursor: pointer;
             border: 1px solid #eee;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
 
         .card i {
-            font-size: 30px;
+            font-size: 32px;
             color: #163C38;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: block;
         }
 
@@ -197,6 +298,7 @@
             color: #163C38;
         }
 
+        /* Modals & Formlar */
         .modal {
             display: none;
             position: fixed;
@@ -204,39 +306,52 @@
             background: rgba(0,0,0,0.5);
             justify-content: center;
             align-items: center;
+            z-index: 100;
         }
 
         .modal-content {
             background: white;
             padding: 25px;
-            border-radius: 12px;
+            border-radius: 16px;
             width: 90%;
-            max-width: 350px;
+            max-width: 380px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .modal-content h3 {
+            color: #163C38;
+            margin-bottom: 5px;
         }
 
         .modal-content input, .modal-content select {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+            font-size: 14px;
         }
 
         .modal-buttons {
             display: flex;
             gap: 10px;
+            margin-top: 5px;
         }
 
         .btn-secondary {
-            background: #ccc;
+            background: #e2e8f0;
+            color: #333;
             border: none;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 10px;
             cursor: pointer;
             flex: 1;
+            font-weight: bold;
         }
 
+        /* PDKS Ekranı */
         .pdks-container {
             padding: 30px;
             display: flex;
@@ -255,6 +370,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            background: #fafafa;
         }
 
         .qr-box i {
@@ -264,12 +380,14 @@
 
         .pdks-container input {
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             text-align: center;
             border: 1px solid #ccc;
-            border-radius: 8px;
+            border-radius: 12px;
+            font-size: 16px;
         }
 
+        /* Personel Listesi */
         .personnel-container {
             padding: 20px;
             overflow-y: auto;
@@ -281,9 +399,9 @@
 
         .user-item {
             background: #f8f9fa;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -304,24 +422,37 @@
     <div id="login-screen" class="screen active">
         <div class="login-container">
             <div class="logo-box">
-                <i class="fa-solid fa-infinity logo-icon"></i>
-                <h2>NetMesai</h2>
-                <p>Yeni Nesil İK ve PDKS Çözümü</p>
+                <div class="logo-circle">
+                    <!-- Görseldeki Dalgalı M Logosu -->
+                    <svg viewBox="0 0 100 100">
+                        <path d="M20 70 C 20 30, 50 30, 50 50 C 50 70, 80 70, 80 30" />
+                    </svg>
+                </div>
+                <div class="logo-title-row">
+                    <h1>NetMesai</h1>
+                </div>
             </div>
             
             <h3>Giriş Yap</h3>
-            <br>
+            
             <div class="input-group">
-                <i class="fa-regular fa-envelope"></i>
-                <input type="text" id="login-id" placeholder="E-Posta veya Telefon">
+                <i class="fa-regular fa-envelope field-icon"></i>
+                <input type="text" id="login-id" placeholder="5XXXXXXXXX veya E-Posta">
             </div>
             <div class="input-group">
-                <i class="fa-solid fa-lock"></i>
-                <input type="password" id="login-pass" placeholder="Parola">
+                <i class="fa-solid fa-lock field-icon"></i>
+                <input type="password" id="login-pass" placeholder="••••••••">
+                <i class="fa-regular fa-eye-slash eye-icon"></i>
             </div>
             
             <div class="login-options">
-                <label><input type="checkbox"> Beni Hatırla</label>
+                <div class="remember-me">
+                    <label class="switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <span>Beni Hatırla</span>
+                </div>
                 <a href="#" class="forgot-pass">Şifre Al / Yenile</a>
             </div>
 
@@ -330,15 +461,16 @@
         </div>
     </div>
 
-    <!-- PATRON GİRİŞ MODALI -->
+    <!-- PATRON HIZLI GİRİŞ MODALI -->
     <div id="boss-modal" class="modal">
         <div class="modal-content">
             <h3>Patron / Admin Girişi</h3>
+            <p style="font-size: 12px; color: #666;">Yönetici yetkisiyle sistemi yönetmek için giriş yapın.</p>
             <input type="text" id="boss-user" placeholder="Kullanıcı Adı (admin)">
             <input type="password" id="boss-pass" placeholder="Şifre (1234)">
             <div class="modal-buttons">
                 <button onclick="closeBossModal()" class="btn-secondary">İptal</button>
-                <button onclick="bossLogin()" class="btn-primary">Giriş Yap</button>
+                <button onclick="bossLogin()" class="btn-primary" style="margin-bottom:0;">Giriş Yap</button>
             </div>
         </div>
     </div>
@@ -354,8 +486,8 @@
             <div class="welcome-card">
                 <i class="fa-solid fa-user-tie avatar-icon"></i>
                 <div>
-                    <h3 id="welcome-name">Hoşgeldin, Kullanıcı</h3>
-                    <p id="welcome-role">Yetki: Personel</p>
+                    <h3 id="welcome-name">Hoşgeldin</h3>
+                    <p id="welcome-role" style="font-size: 13px; color: #555;">Yetki: Personel</p>
                 </div>
             </div>
 
@@ -364,7 +496,7 @@
                     <i class="fa-solid fa-qrcode"></i>
                     <span>PDKS Giriş/Çıkış</span>
                 </div>
-                <div class="card" onclick="openShifts()">
+                <div class="card" onclick="alert('Vardiya Programı açılıyor.')">
                     <i class="fa-solid fa-calendar-days"></i>
                     <span>Vardiya Programı</span>
                 </div>
@@ -392,7 +524,7 @@
             </div>
             <input type="number" id="qr-input" placeholder="QR Kodu Girin (Örn: 123)">
             <button class="btn-primary" onclick="verifyQr()">Kodu Doğrula</button>
-            <p id="qr-result"></p>
+            <p id="qr-result" style="font-weight: bold;"></p>
         </div>
     </div>
 
@@ -408,26 +540,33 @@
         </div>
     </div>
 
-    <!-- YENİ PERSONEL EKLEME MODALI -->
+    <!-- İŞ BAŞVURU FORMU TARZINDA YENİ PERSONEL EKLEME MODALI -->
     <div id="add-user-modal" class="modal">
         <div class="modal-content">
-            <h3>Yeni Personel Ekle</h3>
-            <input type="text" id="new-name" placeholder="Ad Soyad">
+            <h3>Personel Kayıt Formu</h3>
+            <p style="font-size: 12px; color: #666;">Yeni çalışanın sistem giriş bilgilerini ve yetkisini belirleyin.</p>
+            
+            <input type="text" id="new-name" placeholder="Adı Soyadı">
+            <input type="text" id="new-phone" placeholder="Telefon Numarası (Giriş için)">
+            <input type="password" id="new-password" placeholder="Sisteme Giriş Şifresi">
+            
             <select id="new-role">
                 <option value="Personel">Personel</option>
                 <option value="Yönetici">Yönetici</option>
             </select>
+
             <div class="modal-buttons">
                 <button onclick="closeAddUserModal()" class="btn-secondary">İptal</button>
-                <button onclick="addUser()" class="btn-primary">Ekle</button>
+                <button onclick="addUser()" class="btn-primary" style="margin-bottom:0;">Kaydet</button>
             </div>
         </div>
     </div>
 
     <script>
+        // Veritabanı (Telefon ve Şifre ile giriş destekli)
         let users = [
-            { name: "Ahmet Yılmaz", role: "Personel", status: "Giriş Yapmadı" },
-            { name: "Mehmet Demir", role: "Yönetici", status: "Çalışıyor" }
+            { name: "Ahmet Yılmaz", phone: "5551112233", pass: "1234", role: "Personel", status: "Aktif Değil" },
+            { name: "Mehmet Demir", phone: "5552223344", pass: "1234", role: "Yönetici", status: "Çalışıyor" }
         ];
 
         let currentUser = null;
@@ -437,17 +576,30 @@
             document.getElementById(screenId).classList.add('active');
         }
 
+        // Normal Giriş (Telefon Numarası veya E-posta ile)
         function login() {
-            currentUser = { name: "Ahmet Yılmaz", role: "Personel" };
-            setupDashboard();
+            const inputId = document.getElementById('login-id').value.trim();
+            const inputPass = document.getElementById('login-pass').value.trim();
+
+            const foundUser = users.find(u => u.phone === inputId);
+
+            if (foundUser && foundUser.pass === inputPass) {
+                currentUser = foundUser;
+                setupDashboard();
+            } else if (inputId === "admin" && inputPass === "1234") {
+                currentUser = { name: "Sistem Patronu", role: "Patron" };
+                setupDashboard();
+            } else {
+                alert("Hatalı telefon numarası veya şifre!");
+            }
         }
 
         function openBossModal() { document.getElementById('boss-modal').style.display = 'flex'; }
         function closeBossModal() { document.getElementById('boss-modal').style.display = 'none'; }
 
         function bossLogin() {
-            const user = document.getElementById('boss-user').value;
-            const pass = document.getElementById('boss-pass').value;
+            const user = document.getElementById('boss-user').value.trim();
+            const pass = document.getElementById('boss-pass').value.trim();
 
             if(user === "admin" && pass === "1234") {
                 closeBossModal();
@@ -475,6 +627,8 @@
 
         function logout() {
             currentUser = null;
+            document.getElementById('login-id').value = "";
+            document.getElementById('login-pass').value = "";
             showScreen('login-screen');
         }
 
@@ -509,10 +663,10 @@
                 listEl.innerHTML += `
                     <li class="user-item">
                         <div>
-                            <strong>${u.name}</strong><br>
-                            <small>Rol: ${u.role} | Durum: ${u.status}</small>
+                            <strong>${u.name}</strong> (${u.role})<br>
+                            <small style="color:#666;">Tel: ${u.phone} | Şifre: ${u.pass}</small>
                         </div>
-                        <button onclick="deleteUser(${index})" style="background:none; border:none; color:red; cursor:pointer; font-size:16px;">🗑️</button>
+                        <button onclick="deleteUser(${index})" style="background:none; border:none; color:red; cursor:pointer; font-size:16px;"><i class="fa-solid fa-trash"></i></button>
                     </li>
                 `;
             });
@@ -523,24 +677,29 @@
 
         function addUser() {
             const name = document.getElementById('new-name').value.trim();
+            const phone = document.getElementById('new-phone').value.trim();
+            const pass = document.getElementById('new-password').value.trim();
             const role = document.getElementById('new-role').value;
 
-            if(name) {
-                users.push({ name: name, role: role, status: "Aktif Değil" });
+            if(name && phone && pass) {
+                users.push({ name: name, phone: phone, pass: pass, role: role, status: "Aktif Değil" });
                 closeAddUserModal();
+                
+                // Form alanlarını temizle
+                document.getElementById('new-name').value = "";
+                document.getElementById('new-phone').value = "";
+                document.getElementById('new-password').value = "";
+
                 renderPersonnelList();
+                alert("Personel başarıyla kaydedildi! Artık bu telefon ve şifre ile giriş yapabilir.");
             } else {
-                alert("Lütfen isim girin.");
+                alert("Lütfen tüm alanları doldurun.");
             }
         }
 
         function deleteUser(index) {
-            users.splice(index, 1);
+            users.users = users.splice(index, 1);
             renderPersonnelList();
-        }
-
-        function openShifts() {
-            alert("Vardiya Programı ekranı açılıyor.");
         }
     </script>
 </body>
