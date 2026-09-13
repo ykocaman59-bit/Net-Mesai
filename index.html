@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetMesai - İK ve PDKS Platformu</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- GİRİŞ EKRANI -->
+    <div id="login-screen" class="screen active">
+        <div class="login-container">
+            <div class="logo-box">
+                <i class="fa-solid fa-infinity logo-icon"></i>
+                <h2>NetMesai</h2>
+                <p>Yeni Nesil İK ve PDKS Çözümü</p>
+            </div>
+            
+            <h3>Giriş Yap</h3>
+            <div class="input-group">
+                <i class="fa-regular fa-envelope"></i>
+                <input type="text" id="login-id" placeholder="E-Posta veya Telefon">
+            </div>
+            <div class="input-group">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" id="login-pass" placeholder="Parola">
+                <i class="fa-regular fa-eye-slash toggle-pass"></i>
+            </div>
+            
+            <div class="login-options">
+                <label><input type="checkbox"> Beni Hatırla</label>
+                <a href="#" class="forgot-pass">Şifre Al / Yenile</a>
+            </div>
+
+            <button class="btn-primary" onclick="login()">Giriş Yap</button>
+            <button class="btn-outline" onclick="openBossModal()">Patron Girişi</button>
+        </div>
+    </div>
+
+    <!-- PATRON GİRİŞ MODALI -->
+    <div id="boss-modal" class="modal">
+        <div class="modal-content">
+            <h3>Patron / Admin Girişi</h3>
+            <input type="text" id="boss-user" placeholder="Kullanıcı Adı (admin)">
+            <input type="password" id="boss-pass" placeholder="Şifre (1234)">
+            <div class="modal-buttons">
+                <button onclick="closeBossModal()" class="btn-secondary">İptal</button>
+                <button onclick="bossLogin()" class="btn-primary">Giriş Yap</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ANA PANEL (DASHBOARD) -->
+    <div id="dashboard-screen" class="screen">
+        <header class="app-header">
+            <h2 id="panel-title">NetMesai Paneli</h2>
+            <button onclick="logout()" class="btn-logout"><i class="fa-solid fa-right-from-bracket"></i></button>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="welcome-card">
+                <i class="fa-solid fa-user-tie avatar-icon"></i>
+                <div>
+                    <h3 id="welcome-name">Hoşgeldin, Kullanıcı</h3>
+                    <p id="welcome-role">Yetki: Personel</p>
+                </div>
+            </div>
+
+            <div class="grid-menu">
+                <div class="card" onclick="openPdks()">
+                    <i class="fa-solid fa-qrcode"></i>
+                    <span>PDKS Giriş/Çıkış</span>
+                </div>
+                <div class="card" onclick="openShifts()">
+                    <i class="fa-solid fa-calendar-days"></i>
+                    <span>Vardiya Programı</span>
+                </div>
+                <div class="card" id="admin-menu-card" onclick="openPersonnel()" style="display: none;">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>Personel Yönetimi</span>
+                </div>
+                <div class="card" onclick="alert('İzin Talep modülü açıldı.')">
+                    <i class="fa-solid fa-file-lines"></i>
+                    <span>İzin Talebi</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PDKS QR OKUYUCU EKRANI -->
+    <div id="pdks-screen" class="screen">
+        <header class="app-header">
+            <button onclick="backToDashboard()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>PDKS QR Okuyucu</h2>
+        </header>
+        <div class="pdks-container">
+            <div class="qr-box">
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+            <input type="number" id="qr-input" placeholder="QR Kodu Girin (Örn: 123)">
+            <button class="btn-primary" onclick="verifyQr()">Kodu Doğrula</button>
+            <p id="qr-result"></p>
+        </div>
+    </div>
+
+    <!-- PERSONEL YÖNETİMİ EKRANI -->
+    <div id="personnel-screen" class="screen">
+        <header class="app-header">
+            <button onclick="backToDashboard()" class="btn-back"><i class="fa-solid fa-arrow-left"></i></button>
+            <h2>Personel ve Yetki Yönetimi</h2>
+        </header>
+        <div class="personnel-container">
+            <ul id="personnel-list">
+                <!-- Dinamik Liste -->
+            </ul>
+            <button class="btn-primary floating-btn" onclick="openAddUserModal()">+ Yeni Personel Ekle</button>
+        </div>
+    </div>
+
+    <!-- YENİ PERSONEL EKLEME MODALI -->
+    <div id="add-user-modal" class="modal">
+        <div class="modal-content">
+            <h3>Yeni Personel Ekle</h3>
+            <input type="text" id="new-name" placeholder="Ad Soyad">
+            <select id="new-role">
+                <option value="Personel">Personel</option>
+                <option value="Yönetici">Yönetici</option>
+            </select>
+            <div class="modal-buttons">
+                <button onclick="closeAddUserModal()" class="btn-secondary">İptal</button>
+                <button onclick="addUser()" class="btn-primary">Ekle</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
